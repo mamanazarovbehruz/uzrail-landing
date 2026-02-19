@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>UzRail — Chipta ochish</title>
+  <meta name="theme-color" content="#0b1220"/>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <main class="wrap">
+    <section class="card">
+      <header class="top">
+        <div class="brand">
+          <div class="logo" aria-hidden="true">🚆</div>
+          <div class="title">
+            <h1>UzRail Watch</h1>
+            <p>Chipta sahifasini ochish</p>
+          </div>
+        </div>
+
+        <div class="meta">
+          <div class="pill">📍 <b>{{ dep }}</b> → <b>{{ arv }}</b></div>
+          <div class="pill">📅 <b>{{ date }}</b></div>
+        </div>
+      </header>
+
+      <div class="content">
+        <div class="headline">
+          <h2>Qayerda ochamiz?</h2>
+          <span class="hint">2 ta variantdan birini tanlang</span>
+        </div>
+
+        <div class="grid">
+          <a id="btn-chrome" class="btn primary" href="{{ chrome_intent }}">
+            <span class="icon">🌐</span>
+            <span class="text">
+              <strong>Google Chrome’da ochish</strong>
+              <small>Ko‘p hollarda tashqi brauzerga o‘tadi</small>
+            </span>
+            <span class="arrow">➜</span>
+          </a>
+
+          <a id="btn-app" class="btn secondary" href="{{ target }}">
+            <span class="icon">🎫</span>
+            <span class="text">
+              <strong>Uz Rail Ticket (web/ilova)</strong>
+              <small>Telegram ichida ham ochilishi mumkin</small>
+            </span>
+            <span class="arrow">➜</span>
+          </a>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <span>ℹ️ iOS’da Chrome/ilovani majburlash cheklangan bo‘lishi mumkin.</span>
+        <a class="link" href="{{ target }}">Oddiy link</a>
+      </footer>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
