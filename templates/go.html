@@ -1,51 +1,32 @@
 <!doctype html>
-<html lang="{{ lang }}">
+<html lang="uz">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>UzRail Landing</title>
-  <style>
-    body{font-family:system-ui,Arial;margin:24px}
-    .box{max-width:720px;margin:0 auto}
-    .btn{display:inline-block;padding:12px 14px;border-radius:10px;text-decoration:none;border:1px solid #ddd;margin-right:10px}
-    .primary{background:#0b57d0;color:#fff;border-color:#0b57d0}
-    pre{background:#f6f7f8;padding:12px;border-radius:10px;overflow:auto}
-  </style>
 </head>
 <body>
-  <div class="box">
-    <h2>Qayerda ochamiz?</h2>
-    <p>📍 {{ dep }} → {{ arv }} &nbsp; 📅 {{ date }}</p>
+  <h2>Qayerda ochamiz?</h2>
+  <div>lang: <b>{{ lang }}</b></div>
+  <div>dep: <b>{{ dep }}</b> | arv: <b>{{ arv }}</b> | date: <b>{{ date }}</b></div>
 
-    <a class="btn primary" href="{{ trains_page }}" target="_blank" rel="noopener">Eticket’da ochish (trains-page)</a>
+  <button id="btn">API tekshir</button>
 
-    <h3 style="margin-top:18px">Topilgan poyezdlar (landing ichida)</h3>
-    <div id="status">⏳ Tekshiryapman...</div>
-    <pre id="out" style="display:none"></pre>
-  </div>
+  <pre id="out" style="white-space:pre-wrap;background:#f6f6f6;padding:12px;border-radius:8px;"></pre>
 
-<script>
-(async () => {
-  const dep = "{{ dep }}";
-  const arv = "{{ arv }}";
-  const date = "{{ date }}";
+  <script>
+    const payload = { lang: "{{lang}}", dep: "{{dep}}", arv: "{{arv}}", date: "{{date}}" };
 
-  try {
-    const res = await fetch("/api/trains", {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({dep, arv, date})
-    });
-    const data = await res.json();
-
-    document.getElementById("status").textContent = "✅ Javob keldi. (Pastda JSON)";
-    const pre = document.getElementById("out");
-    pre.style.display = "block";
-    pre.textContent = JSON.stringify(data, null, 2);
-  } catch (e) {
-    document.getElementById("status").textContent = "❌ Xato: " + e;
-  }
-})();
-</script>
+    document.getElementById("btn").onclick = async () => {
+      document.getElementById("out").textContent = "Yuklanmoqda...";
+      const res = await fetch("/api/trains", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(payload)
+      });
+      const txt = await res.text();
+      document.getElementById("out").textContent = txt;
+    };
+  </script>
 </body>
 </html>
