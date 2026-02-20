@@ -33,13 +33,10 @@
         </div>
 
         <div class="grid">
-          <a id="btn-chrome" class="btn primary" href="{{ chrome_intent }}">
-            <span class="icon">🌐</span>
-            <span class="text">
-              <strong>Google Chrome’da ochish</strong>
-              <small>Ko‘p hollarda tashqi brauzerga o‘tadi</small>
-            </span>
-            <span class="arrow">➜</span>
+          <!-- Google Chrome -->
+          <a class="card" href="{{ schedule_url }}" target="_blank" rel="noopener">
+            <div class="title">Google Chrome’da ochish</div>
+            <div class="sub">Poyezdlar jadvaliga o‘tadi</div>
           </a>
 
           <a id="btn-app" class="btn secondary" href="{{ target }}">
@@ -55,7 +52,7 @@
 
       <footer class="footer">
         <span>ℹ️ iOS’da Chrome/ilovani majburlash cheklangan bo‘lishi mumkin.</span>
-        <a class="link" href="{{ target }}">Oddiy link</a>
+        <a class="simple" href="{{ home_url }}" target="_blank" rel="noopener">Oddiy link</a>
       </footer>
     </section>
   </main>

@@ -1,27 +1,23 @@
-import os
+# app.py
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-@app.get("/")
-def health():
-    return "UzRail Landing is running ✅", 200
-
-@app.get("/go")
+@app.route("/go")
 def go():
-    lang = (request.args.get("lang") or "uz").lower()
-    dep = request.args.get("dep") or ""
-    arv = request.args.get("arv") or ""
-    date = request.args.get("date") or ""
+    lang = (request.args.get("lang", "uz") or "uz").lower()
+    if lang not in ("uz", "ru", "en"):
+        lang = "uz"
 
-    # keyin buni real search url'ga almashtiramiz
-    target = f"https://eticket.railway.uz/{lang}/home"
+    dep = request.args.get("dep")
+    arv = request.args.get("arv")
+    date = request.args.get("date")
 
-    # Android Chrome intent (har doim 100% majbur emas)
-    chrome_intent = (
-        "intent://" + target.replace("https://", "").replace("http://", "")
-        + "#Intent;scheme=https;package=com.android.chrome;end"
-    )
+    # ✅ Siz xohlagan: Chrome bosilganda jadval sahifasi ochilsin
+    schedule_url = f"https://eticket.railway.uz/{lang}/pages/schedule"
+
+    # (ixtiyoriy) oddiy home link ham qoldiramiz (fallback)
+    home_url = f"https://eticket.railway.uz/{lang}/home"
 
     return render_template(
         "go.html",
@@ -29,9 +25,9 @@ def go():
         dep=dep,
         arv=arv,
         date=date,
-        target=target,
-        chrome_intent=chrome_intent,
+        schedule_url=schedule_url,
+        home_url=home_url,
     )
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.getenv("PORT", "8080")))
+    app.run(host="0.0.0.0", port=8080)
