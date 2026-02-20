@@ -2,31 +2,57 @@
 <html lang="uz">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>UzRail Landing</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <h2>Qayerda ochamiz?</h2>
-  <div>lang: <b>{{ lang }}</b></div>
-  <div>dep: <b>{{ dep }}</b> | arv: <b>{{ arv }}</b> | date: <b>{{ date }}</b></div>
+  <div class="bg"></div>
 
-  <button id="btn">API tekshir</button>
+  <main class="wrap">
+    <section class="card">
+      <div class="top">
+        <div class="brand">
+          <div class="logo">🚆</div>
+          <div>
+            <div class="title">UzRail Watch</div>
+            <div class="sub">Chipta sahifasini ochish</div>
+          </div>
+        </div>
 
-  <pre id="out" style="white-space:pre-wrap;background:#f6f6f6;padding:12px;border-radius:8px;"></pre>
+        <div class="chips">
+          <span class="chip">📍 {{ dep }} → {{ arv }}</span>
+          <span class="chip">📅 {{ date }}</span>
+        </div>
+      </div>
 
-  <script>
-    const payload = { lang: "{{lang}}", dep: "{{dep}}", arv: "{{arv}}", date: "{{date}}" };
+      <h1>Qayerda ochamiz?</h1>
+      <p class="hint">2 ta variantdan birini tanlang</p>
 
-    document.getElementById("btn").onclick = async () => {
-      document.getElementById("out").textContent = "Yuklanmoqda...";
-      const res = await fetch("/api/trains", {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify(payload)
-      });
-      const txt = await res.text();
-      document.getElementById("out").textContent = txt;
-    };
-  </script>
+      <div class="grid">
+        <a class="btn primary" href="{{ eticket_trains }}" target="_blank" rel="noopener">
+          <span class="ic">🌐</span>
+          <span class="txt">
+            <span class="t">Google Chrome’da ochish</span>
+            <span class="d">Darrov “Poyezdlar” sahifasiga o‘tadi</span>
+          </span>
+          <span class="arr">→</span>
+        </a>
+
+        <a class="btn secondary" href="{{ eticket_home }}" target="_blank" rel="noopener">
+          <span class="ic">📲</span>
+          <span class="txt">
+            <span class="t">Uz Rail Ticket (web/ilova)</span>
+            <span class="d">Agar to‘g‘ridan-to‘g‘ri ochilmasa — home ochiladi</span>
+          </span>
+          <span class="arr">→</span>
+        </a>
+      </div>
+
+      <div class="note">
+        ℹ️ Eslatma: iOS/Telegram ichida tashqi brauzerga majburlash cheklangan bo‘lishi mumkin.
+      </div>
+    </section>
+  </main>
 </body>
 </html>
