@@ -1,11 +1,14 @@
 import os
-from flask import Flask, render_template, request
+import requests
+from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
+ETICKET_API = "https://eticket.railway.uz/api/v3/handbook/trains/list"
+
 @app.get("/")
 def health():
-    return "UzRail Landing is running ✅", 200
+    return "UzRail Landing OK", 200
 
 @app.get("/go")
 def go():
@@ -17,24 +20,8 @@ def go():
     arv = request.args.get("arv") or ""
     date = request.args.get("date") or ""
 
-    # ✅ 2-rasmdagi sahifa
-    trains_url = f"https://eticket.railway.uz/{lang}/pages/trains-page"
-
-    # ✅ shu yerda paramlar bilan yuboramiz (agar qabul qilsa — zo‘r)
-    # Eslatma: param nomlari ishlamasa, keyingi qadamda JS bilan to‘ldiramiz
-    trains_url_with_params = (
-        f"{trains_url}"
-        f"?dep={dep}&arv={arv}&date={date}"
-    )
-
-    # ✅ Chrome intent (Android’da Chrome’ni majburiy ochishga urinadi)
-    chrome_intent = (
-        "intent://" + trains_url_with_params.replace("https://", "").replace("http://", "")
-        + "#Intent;scheme=https;package=com.android.chrome;end"
-    )
-
-    # (fallback) oddiy link
-    normal_link = trains_url_with_params
+    # Eticket'ni natija sahifasi (lekin prefill bo‘lmasligi mumkin)
+    trains_page = f"https://eticket.railway.uz/{lang}/pages/trains-page"
 
     return render_template(
         "go.html",
@@ -42,9 +29,33 @@ def go():
         dep=dep,
         arv=arv,
         date=date,
-        chrome_intent=chrome_intent,
-        normal_link=normal_link,
+        trains_page=trains_page,
     )
+
+# ✅ Backend proxy: CORS yo‘q, shu ishlaydi
+@app.post("/api/trains")
+def api_trains():
+    data = request.get_json(force=True) or {}
+    dep = str(data.get("dep", "")).strip()
+    arv = str(data.get("arv", "")).strip()
+    date = str(data.get("date", "")).strip()
+
+    payload = {
+        "directions": {
+            "forward": {
+                "date": date,
+                "depStationCode": dep,
+                "arvStationCode": arv
+            }
+        }
+    }
+
+    try:
+        r = requests.post(ETICKET_API, json=payload, timeout=20)
+        r.raise_for_status()
+        return jsonify(r.json())
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 502
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.getenv("PORT", "8080")))
