@@ -21,6 +21,12 @@ def go():
     arv = (request.args.get("arv") or "").strip()
     date = (request.args.get("date") or "").strip()
 
+    dep_name = (request.args.get("dep_name") or "").strip()
+    arv_name = (request.args.get("arv_name") or "").strip()
+
+    dep_display = dep_name if dep_name else dep
+    arv_display = arv_name if arv_name else arv
+
     # Hozircha home (keyin deep-link topilsa o'zgartiramiz)
     target = f"https://eticket.railway.uz/{lang}/home"
 
@@ -54,6 +60,8 @@ def go():
         apple_url=APPLE_URL,
         chrome_web=chrome_web,
         app_web=app_web,
+        dep_display=dep_display,
+        arv_display=arv_display,
     )
 
 

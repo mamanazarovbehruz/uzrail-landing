@@ -149,4 +149,11 @@
   @media (min-width: 640px){
     .grid{ grid-template-columns: 1fr 1fr; }
   }
-  
+
+  .appicon{
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    object-fit: cover;
+    display: block;
+  }
