@@ -46,10 +46,11 @@
           <a id="btn-app"
             class="btn secondary js-open-app"
             href="{{ app_intent }}"
+            data-web="{{ app_web }}"
             data-apple="{{ apple_url }}"
             data-play="{{ play_url }}">
             <span class="icon">
-              <img src="{{ url_for('static', filename='img/uzrail.jpeg') }}" alt="UzRail" class="appicon">
+              <img src="{{ url_for('static', filename='img/uzrail.png') }}" alt="UzRail" class="appicon">
             </span>
             <span class="text">
               <strong>Uz Rail Ticket (web/ilova)</strong>
