@@ -15,3 +15,20 @@ function setLoading(a){
     setLoading(this);
   });
   
+
+function isIOS() {
+  return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+  
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.querySelector(".js-open-app");
+  if (!btn) return;
+
+  btn.addEventListener("click", (e) => {
+    if (isIOS()) {
+      e.preventDefault();
+      window.location.href = btn.dataset.apple; // App Store
+    }
+    // Android: href="intent:..." o‘zi ishlaydi (fallback Play Market)
+  });
+});
