@@ -26,3 +26,18 @@ document.getElementById("btn-app")?.addEventListener("click", function(e){
   }
   // Android: href="intent:..." o'zi ishlaydi (app yoki Play Market fallback)
 });
+
+function isAndroid() {
+  return /Android/i.test(navigator.userAgent);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Desktopda intent ishlamaydi — oddiy https linkga o'tkazamiz
+  if (!isAndroid()) {
+    const c = document.getElementById("btn-chrome");
+    if (c && c.dataset.web) c.href = c.dataset.web;
+
+    const a = document.getElementById("btn-app");
+    if (a && a.dataset.web) a.href = a.dataset.web;
+  }
+});

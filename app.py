@@ -24,6 +24,12 @@ def go():
     # Hozircha home (keyin deep-link topilsa o'zgartiramiz)
     target = f"https://eticket.railway.uz/{lang}/home"
 
+    # Desktop uchun oddiy Chrome link
+    chrome_web = target
+
+    # Desktop uchun market link (app o'rnatib bo'lmaydi)
+    app_web = PLAY_URL
+
     # 1) Chrome intent (tashqi Chrome brauzerga chiqarish)
     chrome_intent = (
         "intent://" + target.replace("https://", "").replace("http://", "")
@@ -40,15 +46,14 @@ def go():
 
     return render_template(
         "go.html",
-        lang=lang,
-        dep=dep,
-        arv=arv,
-        date=date,
+        lang=lang, dep=dep, arv=arv, date=date,
         target=target,
         chrome_intent=chrome_intent,
         app_intent=app_intent,
         play_url=PLAY_URL,
         apple_url=APPLE_URL,
+        chrome_web=chrome_web,
+        app_web=app_web,
     )
 
 
